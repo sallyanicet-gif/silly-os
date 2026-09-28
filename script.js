@@ -343,10 +343,10 @@ curryvital: {
     height: 520,
     content: `
       <div class="resume-toolbar">
-        <div class="tb-btn" onclick="document.getElementById('resumeImg').style.width = (document.getElementById('resumeImg').style.width === '150%' ? '100%' : '150%')">
+        <div class="tb-btn" onclick="toggleResumeZoom()">
           <img src="icons/Search.png" class="tb-icon" alt=""> Zoom
         </div>
-        <a class="tb-btn" href="images/cv-neidjah.png" download="CV_ANICET_Neidjah.png">
+        <a class="tb-btn" href="pdf/CV_ANICET_Neidjah.png" download="CV_ANICET_Neidjah.png">
           <img src="icons/SDCard.png" class="tb-icon" alt=""> Save
         </a>
         <div class="tb-btn" onclick="openWindow('contact')">
@@ -354,7 +354,7 @@ curryvital: {
         </div>
       </div>
       <div class="resume-scroll">
-        <img id="resumeImg" src="pdf/CV_ANICET_Neidjah.png" alt="Mon CV" style="width:100%; display:block; margin:0 auto; transition: width 0.2s;">
+        <img id="resumeImg" src="pdf/CV_ANICET_Neidjah.png" alt="Mon CV" style="width:65%; display:block; margin:0 auto; transition: width 0.2s;">
       </div>
     `
 }
@@ -363,6 +363,10 @@ curryvital: {
 // ---------------------------------------------------------------
 // Contact form (Formspree AJAX) — used by the "Contact Me" window
 // ---------------------------------------------------------------
+function toggleResumeZoom() {
+    const img = document.getElementById("resumeImg");
+    img.style.width = img.style.width === "65%" ? "150%" : "65%";
+}
 function handleContactForm(e, form) {
     e.preventDefault();
 
