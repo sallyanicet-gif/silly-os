@@ -64,14 +64,14 @@ const PROJECTS = [
         url: "silly-os.local/portfolio/projets/affiche-axell",
         desc: "Affiche pour l'exposition fictive de Evelynne Axell au Musée d'art contemporain.",
         tags: ["Design", "Affiche", "Illustration"],
-        image: "http://www.image-heberg.fr/files/17799349731072417184.png",
+        image: "https://www.image-heberg.fr/files/17799349731072417184.png",
         link: "https://drive.google.com/file/d/11WxYHSJiqjsr2f_F0ArDcBD5uq_tXjYu/view?usp=sharing",
     },
     
  {
         title: "Affiche de concert Insane Clown Posse!",
         url: "silly-os.local/portfolio/projets/affiche-icp",
-        desc: "Affiche pour le concert de Insane Clwn Posse, dans le style Swissted.",
+        desc: "Affiche pour le concert des Insane Clown Posse, dans le style Swissted.",
         tags: ["Design", "Affiche", "Illustration"],
         image: "https://www.image-heberg.fr/files/17722959451235490333.png",
         link: "https://www.image-heberg.fr/files/17722959451235490333.png",
@@ -80,7 +80,7 @@ const PROJECTS = [
     {
         title: "Pub Flora Gucci",
         url: "silly-os.local/portfolio/projets/pub-flora",
-        desc: "Un mockup fais en collaboration pour une publicité.",
+        desc: "Un mockup fait en collaboration pour une publicité.",
         tags: ["Publicité", "Collaboratif"],
         image: "https://image.noelshack.com/fichiers/2026/36/3/1788373144-mockup.png",
         link: "https://drive.google.com/drive/folders/1LPzavSL3eCfmo5cXGz4ang-ZFnPsYqqe",
@@ -98,8 +98,8 @@ const PROJECTS = [
          {
         title: "Silly Links",
         url: "silly-os.local/portfolio/projets/silly-links",
-        desc: "Site personnel regroupant mes résaux sociaux ",
-        tags: ["Design", "Project Perso","Branding","Web"],
+        desc: "Site personnel regroupant mes réseaux sociaux",
+        tags: ["Design", "Projet perso","Branding","Web"],
         image: "https://image.noelshack.com/fichiers/2026/36/3/1788373880-pperso.png",
         link: "https://sillylinks.duckdns.org",
     },
@@ -107,7 +107,7 @@ const PROJECTS = [
              {
         title: "Project Mareis",
         url: "silly-os.local/portfolio/projets/mareis",
-        desc: "Site pour une association fictive pour la protection maritime ",
+        desc: "Site pour une association fictive pour la protection maritime",
         tags: ["Collaboratif","Web"],
         image: "https://image.noelshack.com/fichiers/2026/36/3/1788374110-site-maeries.jpg",
         link: "https://sallyanicet-gif.github.io/sae-1.05/",
@@ -116,18 +116,18 @@ const PROJECTS = [
             {
         title: "An apple a day...",
         url: "silly-os.local/portfolio/projets/bad-apple",
-        desc: "Une affiche réaliser avec Adobe Illustrator pour un single appeler 'an apple a day' par horsegiirL",
-        tags: ["Project perso","Design","Affiche"],
-        image: "http://www.image-heberg.fr/files/17875409633740919566.png",
+        desc: "Une affiche réalisée avec Adobe Illustrator pour le single « An Apple a Day » de horsegiirL",
+        tags: ["Projet perso","Design","Affiche"],
+        image: "https://www.image-heberg.fr/files/17875409633740919566.png",
         link: "https://www.instagram.com/p/DcKomFHsXCh/?utm_source=ig_web_copy_link&igsi=NTc4MTIwNjQ2YQ==",
     }, 
     
               {
         title: "Affiche Baki",
         url: "silly-os.local/portfolio/projets/i-got-that-dawg-in-me",
-        desc: "Une affiche réaliser sur photoshop pourl'anime Baki(2018) sur Netflix ",
-        tags: ["Design","Affiche","Project Perso"],
-        image: "http://www.image-heberg.fr/files/17875411362566168416.png",
+        desc: "Une affiche réalisée sur Photoshop pour l'anime Baki (2018) sur Netflix",
+        tags: ["Design","Affiche","Projet perso"],
+        image: "https://www.image-heberg.fr/files/17875411362566168416.png",
         link: "https://www.instagram.com/p/DcZTJRdOOOO/?utm_source=ig_web_copy_link&igsi=MzRlODBiNWFlZA==",
     },
     
@@ -152,7 +152,7 @@ const PROJECTS = [
                {
         title: "Visuel Web Blackpink",
         url: "silly-os.local/portfolio/projets/blackpink-in-ur-area",
-        desc: "Reproduction d'un visuel web de Blakcpink",
+        desc: "Reproduction d'un visuel web de Blackpink",
         tags: ["Design","Affiche"],
         image: "https://image.noelshack.com/fichiers/2026/22/4/1779971044-ex15-01.jpg",
         link: "https://image.noelshack.com/fichiers/2026/22/4/1779971044-ex15-01.jpg",
@@ -161,16 +161,16 @@ const PROJECTS = [
                    {
         title: "IMPT-Interview",
         url: "silly-os.local/portfolio/projets/impt",
-        desc: "Direction artistique et management de project.",
+        desc: "Direction artistique et gestion de projet.",
         tags: ["Branding","Audiovisuel"],
         image: "https://image.noelshack.com/fichiers/2026/36/3/1788373143-impt.png",
         link: "https://youtube.com/shorts/x1Lvlvfe02M?si=I-BWv-x-iVeFyxXD",
     },
     
            {
-        title: "Scéne d'horreur",
+        title: "Scène d'horreur",
         url: "silly-os.local/portfolio/projets/boo",
-        desc: "Scéne de 1 minute de film d'horreur",
+        desc: "Scène d'une minute de film d'horreur",
         tags: ["Audiovisuel","Collaboratif"],
         image: "https://image.noelshack.com/fichiers/2026/36/3/1788381636-film1.png",
         link: "https://youtu.be/Y85a9M9mVBk?si=g2D22JzZw5bBffQy",
@@ -295,6 +295,7 @@ const APPS = {
       <p>Passionnée par le design et le développement web, je combine créativité et rigueur technique pour donner vie à des projets qui ont du sens. Mon objectif : créer des solutions élégantes qui résolvent de vrais problèmes.</p>
       <p>Entre deux projets, on me trouve en train d'explorer les dernières tendances design ou de peaufiner une illustration digitale.</p>
       <p>Côté détente, je suis fan de MOBA (League of Legends) et de jeux plus posés comme Stardew Valley et je stream tout ça sur Twitch, où j'essaie petit à petit de faire grandir ma communauté.</p>
+        </div>
     `
     },
     projects: {
@@ -523,6 +524,7 @@ function openWindow(appId) {
             restoreWindow(winId);
         } else if (isActive(winId)) {
             minimizeWindow(winId);
+            return; // ne pas re-focus une fenêtre qu'on vient de réduire
         }
         focusWindow(winId);
     });
@@ -593,7 +595,7 @@ function toggleMaximize(win) {
         win.dataset.prevL = win.style.left;
         win.dataset.prevT = win.style.top;
         win.style.width = "100%";
-        win.style.height = "calc(100vh - 34px)";
+        win.style.height = `calc(var(--app-height, 100vh) - ${document.getElementById("taskbar").offsetHeight}px)`;
         win.style.left = "0px";
         win.style.top = "0px";
         win.dataset.maxed = "1";
