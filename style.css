@@ -10,6 +10,65 @@
 
 * { box-sizing: border-box; }
 
+/* ---------- Accessibilité : utilitaires ---------- */
+[hidden] { display: none !important; }
+
+/* Texte lu par les lecteurs d'écran mais invisible à l'écran */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Contour de focus bien visible au clavier, partout */
+:focus-visible {
+  outline: 3px solid #ffbf00;
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+/* Les titres qui reçoivent le focus par script n'ont pas besoin de cadre */
+[tabindex="-1"]:focus { outline: none; }
+
+.window-body :focus-visible,
+.se-shell :focus-visible,
+#start-menu :focus-visible {
+  outline-color: #1a5fd6;
+}
+
+/* Remise à zéro des boutons et listes qu'on stylise nous-mêmes */
+.icon, .sm-item, .sm-footer-btn, #start-btn, .task-item,
+#login-card, .xp-poweroff, .se-tag, .shutdown-restart {
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  background: none;
+  border: 0;
+  margin: 0;
+  min-width: 0;
+  min-height: 0;
+  box-shadow: none;
+}
+/* XP.css ajoute des ombres/fonds à tous les <button> au survol, au focus
+   et au clic. On les neutralise sur nos boutons "maison" (le #start-btn
+   dans :is() donne une spécificité suffisante pour passer devant). */
+:is(.icon, .sm-item, .sm-footer-btn, #start-btn, .task-item, #login-card,
+    .xp-poweroff, .se-tag, .shutdown-restart, .tb-btn):is(:hover, :focus, :active, .active) {
+  box-shadow: none;
+}
+:is(.icon, .sm-footer-btn, #login-card, .xp-poweroff, .shutdown-restart, #start-btn):not(:disabled):is(:active, .active) {
+  background-image: none;
+}
+
+.icons, .sm-col-left, .sidebar-list, .se-results, .se-result-tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
 html, body {
   height: 100%;
   margin: 0;
@@ -17,6 +76,9 @@ html, body {
   overflow: hidden;
   user-select: none;
 }
+
+/* Le contenu des fenêtres reste sélectionnable (copier un email, un texte...) */
+.window-body, .explorer-sidebar { user-select: text; }
 
 #desktop {
   position: relative;
@@ -39,7 +101,7 @@ html, body {
 }
 
 .icon {
-  width: 74px;
+  width: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -49,7 +111,7 @@ html, body {
   border-radius: 2px;
 }
 
-.icon:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.08); }
+.icon:hover, .icon:focus-visible { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.15); }
 
 .icon .glyph {
   width: 40px;
@@ -86,7 +148,7 @@ html, body {
 
 .icon .label {
   color: #fff;
-  font-size: 11px;
+  font-size: 12px;
   text-align: center;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
   line-height: 1.2;
@@ -188,14 +250,22 @@ html, body {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 11px;
+  font: inherit;
+  font-size: 12px;
   color: #234;
-  padding: 4px 8px;
+  padding: 3px 7px;
+  min-width: 0;
+  min-height: 0;
+  background: none;
+  border: 1px solid transparent;
+  box-shadow: none;
   border-radius: 3px;
   cursor: pointer;
 }
 
-.explorer-toolbar .tb-btn:hover { background: #c6d8f0; border: 1px solid #7fa8dd; padding: 3px 7px; }
+.explorer-toolbar .tb-btn:hover:not(:disabled) { background: #c6d8f0; border-color: #7fa8dd; }
+.explorer-toolbar .tb-btn:disabled { color: #6d6d6d; cursor: default; }
+.explorer-toolbar .tb-btn:disabled img { opacity: 0.5; filter: grayscale(1); }
 .explorer-toolbar .tb-icon {
   width: 18px;
   height: 18px;
@@ -262,6 +332,7 @@ html, body {
 }
 
 .explorer-sidebar {
+  order: -1; /* à gauche à l'écran, mais lu après le contenu */
   width: 170px;
   flex-shrink: 0;
   background: linear-gradient(180deg, #dce8fb, #c3d9f5);
@@ -274,6 +345,7 @@ html, body {
 .sidebar-section { margin-bottom: 10px; }
 
 .sidebar-title {
+  margin: 0;
   background: linear-gradient(180deg, #3a7ce0, #1c53c8);
   color: #fff;
   font-size: 11px;
@@ -297,21 +369,23 @@ html, body {
   padding: 3px 0;
 }
 
-.sidebar-list div {
+.sidebar-list li {
   padding: 3px 10px;
-  color: #1a4faa;
-  cursor: pointer;
+  color: #1a3d80;
   display: flex;
   align-items: center;
   gap: 6px;
+  font-size: 12px;
 }
+
+.sidebar-list a { color: #1a4faa; }
 
 .sidebar-list .item-icon {
   font-size: 12px;
   flex-shrink: 0;
 }
 
-.sidebar-list div:hover { background: #dbe9fb; text-decoration: underline; }
+.sidebar-list li:has(a):hover { background: #dbe9fb; }
 
 /* ---------- Dark / hero content panel (e.g. About Me) ---------- */
 .explorer-main.dark-content {
@@ -353,6 +427,16 @@ html, body {
   flex: 1;
   overflow: auto;
   padding: 20px;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.about-photo {
+  float: right;
+  width: 220px;
+  max-width: 45%;
+  margin: 0 0 10px 15px;
+  border: 2px solid #3a6ea5;
 }
 
 /* ---------- Taskbar ---------- */
@@ -376,7 +460,7 @@ html, body {
   padding: 0 14px 0 8px;
   background: linear-gradient(180deg, #7ee065 0%, #3fae1e 45%, #2a8a1e 100%);
   border-radius: 4px 10px 10px 4px;
-  color: #fff;
+  color: #fff !important;
   font-weight: bold;
   font-style: italic;
   font-size: 13px;
@@ -385,9 +469,11 @@ html, body {
   gap: 6px;
   cursor: pointer;
   border: 1px solid rgba(0,0,0,0.3);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
 }
 
 #start-btn:active, #start-btn.open { filter: brightness(0.9); }
+#taskbar #start-btn:not(:disabled):active { background: linear-gradient(180deg, #7ee065 0%, #3fae1e 45%, #2a8a1e 100%); }
 
 .start-icon {
   width: 18px;
@@ -400,6 +486,9 @@ html, body {
   gap: 4px;
   flex: 1;
   height: 26px;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
 
 .task-item {
@@ -407,7 +496,8 @@ html, body {
   border: 1px solid rgba(0,0,0,0.3);
   border-radius: 3px;
   color: #fff;
-  font-size: 11px;
+  font-size: 12px;
+  flex-shrink: 0;
   padding: 0 10px;
   display: flex;
   align-items: center;
@@ -419,11 +509,13 @@ html, body {
   cursor: pointer;
 }
 
-.task-item.active { background: linear-gradient(180deg, #1a3f8f, #0b2870); box-shadow: inset 0 0 4px rgba(0,0,0,0.6); }
+.task-item .task-label { overflow: hidden; text-overflow: ellipsis; }
+.task-item:hover { filter: brightness(1.15); }
+#taskbar .task-item:not(:disabled):is(:active, .active) { background: linear-gradient(180deg, #1a3f8f, #0b2870); box-shadow: inset 0 0 4px rgba(0,0,0,0.6); }
 
 #clock {
   color: #fff;
-  font-size: 11px;
+  font-size: 12px;
   padding: 0 12px;
   border-left: 1px solid rgba(255,255,255,0.3);
   height: 100%;
@@ -443,13 +535,11 @@ html, body {
   box-shadow:
     0 0 0 1px rgba(255,255,255,0.6) inset,
     2px -2px 16px rgba(0,0,0,0.5);
-  display: none;
+  display: block;
   overflow: hidden;
   z-index: 10000;
   font-family: Tahoma, Verdana, sans-serif;
 }
-
-#start-menu.open { display: block; }
 
 .sm-header {
   position: relative;
@@ -504,6 +594,7 @@ html, body {
 
 .sm-item {
   display: flex;
+  width: calc(100% - 6px);
   align-items: center;
   gap: 10px;
   margin: 1px 3px;
@@ -513,7 +604,7 @@ html, body {
   cursor: pointer;
 }
 
-.sm-item:hover {
+.sm-item:hover, .sm-item:focus-visible {
   background: linear-gradient(180deg, #dcebfd, #b6d6fb);
   border-color: #7dabec;
 }
@@ -525,42 +616,19 @@ html, body {
   flex-shrink: 0;
 }
 
+.sm-item-text { display: flex; flex-direction: column; }
+
 .sm-item-title {
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: bold;
   color: #0a2e9c;
   line-height: 1.25;
 }
 
 .sm-item-sub {
-  font-size: 10.5px;
+  font-size: 11.5px;
   color: #444;
   line-height: 1.2;
-}
-
-.sm-allprograms {
-  margin-top: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px;
-  padding: 7px 14px;
-  border-top: 1px solid #d9e6f7;
-  background: #f2f6fd;
-  font-size: 11.5px;
-  font-weight: bold;
-  color: #0a2e9c;
-  cursor: pointer;
-}
-
-.sm-allprograms:hover { background: linear-gradient(180deg, #dcebfd, #b6d6fb); }
-
-.sm-arrow {
-  width: 0;
-  height: 0;
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  border-left: 7px solid #2f9e2f;
 }
 
 .sm-footer {
@@ -574,6 +642,7 @@ html, body {
 }
 
 .sm-footer-btn {
+  color: #fff !important;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -586,7 +655,7 @@ html, body {
   cursor: pointer;
 }
 
-.sm-footer-btn:hover {
+.sm-footer-btn:hover, .sm-footer-btn:focus-visible {
   background: rgba(255,255,255,0.18);
   border-color: rgba(255,255,255,0.35);
 }
@@ -616,10 +685,11 @@ html, body {
 
 #app-shell {
   opacity: 0;
-  transition: opacity 0.6s ease;
+  visibility: hidden;
+  transition: opacity 0.6s ease, visibility 0.6s;
 }
 
-#app-shell.visible { opacity: 1; }
+#app-shell.visible { opacity: 1; visibility: visible; transition: opacity 0.6s ease, visibility 0s; }
 
 /* Boot screen */
 #boot-screen {
@@ -683,16 +753,18 @@ html, body {
   100% { opacity: 0.15; }
 }
 
+#boot-screen { cursor: pointer; }
+
 #boot-hint {
   position: absolute;
   bottom: 26px;
-  font-size: 11px;
-  color: #8f5faa;
+  font-size: 12px;
+  color: #b48ad0; /* contraste suffisant sur fond noir */
 }
 
 /* Login screen — Windows XP "Luna" style */
 #login-screen.xp-login {
-  background: radial-gradient(ellipse at 22% 24%, #f5dcff 0%, #c49fea 30%, #834ac9 62%, #821caa 100%);
+  background: radial-gradient(ellipse at 8% 6%, #f5dcff 0%, #b98ae3 16%, #7a42c0 42%, #6c1a99 100%);
   color: #fff;
   padding: 6px;
 }
@@ -769,8 +841,11 @@ html, body {
 }
 
 .xp-instruction {
-  font-size: 14px;
-  color: #eef5ff;
+  margin: 0;
+  font-size: 15px;
+  font-weight: normal;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(40,0,70,0.8);
 }
 
 .xp-divider {
@@ -795,7 +870,8 @@ html, body {
   transition: background 0.2s ease;
 }
 
-#login-card.xp-user-tile:hover { background: rgba(255,255,255,0.14); }
+#login-card.xp-user-tile:hover,
+#login-card.xp-user-tile:focus-visible { background: rgba(255,255,255,0.18); }
 
 #login-avatar.xp-avatar {
   width: 58px;
@@ -837,9 +913,12 @@ html, body {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 12px;
-  color: #eef5ff;
+  font-size: 13px;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
 }
+.xp-poweroff:hover { background: rgba(255,255,255,0.15); }
 
 .xp-power-icon {
   width: 26px;
@@ -849,8 +928,9 @@ html, body {
 }
 
 .xp-bottom-hint {
-  font-size: 11px;
-  color: #d8e6fb;
+  margin: 0;
+  font-size: 12px;
+  color: #f0f4ff;
   text-align: right;
   max-width: 260px;
   line-height: 1.4;
@@ -873,6 +953,33 @@ html, body {
 
 #welcome-text.show { opacity: 1; }
 
+/* Shutdown screen */
+#shutdown-screen {
+  z-index: 30000;
+  background: #000;
+  color: #8f5faa;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  padding: 20px;
+  line-height: 1.6;
+  cursor: default;
+}
+
+.shutdown-restart {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 6px 14px;
+  border: 1px solid #b48ad0 !important;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: normal;
+  color: #8f5faa;
+  cursor: pointer;
+}
+
+.xp-poweroff { cursor: pointer; }
+
 .xp-login-frame {
   transition: opacity 0.4s ease;
 }
@@ -887,20 +994,35 @@ html, body {
     background: #ece9d8;
     border-bottom: 1px solid #aca899;
 }
+.resume-toolbar { flex-wrap: wrap; }
 .resume-toolbar .tb-btn {
     display: flex;
     align-items: center;
     gap: 4px;
-    padding: 4px 10px;
+    padding: 3px 9px;
+    min-width: 0;
+    min-height: 0;
+    background: none;
+    border: 1px solid transparent;
+    box-shadow: none;
     cursor: pointer;
+    font: inherit;
     font-size: 12px;
     text-decoration: none;
     color: #000;
 }
-.resume-toolbar .tb-btn:hover {
+.resume-toolbar .tb-btn:hover,
+.resume-toolbar .tb-btn[aria-pressed="true"] {
     background: #d3e4fd;
-    border: 1px solid #6ea1e0;
+    border-color: #6ea1e0;
 }
+.resume-img {
+    width: 65%;
+    display: block;
+    margin: 0 auto;
+    transition: width 0.2s;
+}
+.resume-img.zoomed { width: 150%; max-width: none; }
 .tb-icon {
     width: 16px;
     height: 16px;
@@ -927,6 +1049,7 @@ html, body {
 }
 
 .se-logo {
+  margin-top: 0;
   font-size: 28px;
   font-weight: bold;
   letter-spacing: -0.5px;
@@ -961,7 +1084,10 @@ html, body {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 11px;
+  min-width: 0;
+  min-height: 0;
+  box-shadow: none;
+  font-size: 12px;
   color: #000;
   background: linear-gradient(180deg, #fdfdfb, #ece9d9);
   border: 1px solid #9a9686;
@@ -982,10 +1108,10 @@ html, body {
 }
 
 .se-stats {
-  font-size: 11px;
-  color: #666;
+  font-size: 12px;
+  color: #595959;
   text-align: center;
-  margin-top: 8px;
+  margin: 8px 0 0;
 }
 
 .se-results {
@@ -1021,6 +1147,8 @@ html, body {
   min-width: 0;
 }
 
+.se-result-heading { margin: 0; font-size: inherit; font-weight: normal; }
+
 .se-result-title {
   display: inline-block;
   font-size: 16px;
@@ -1030,7 +1158,8 @@ html, body {
 }
 
 .se-result-title:visited { color: #551A8B; }
-.se-result-title:hover { text-decoration: underline; }
+.se-result-title { text-decoration: underline; text-underline-offset: 2px; }
+.se-result-title:hover { text-decoration-thickness: 2px; }
 
 .se-result-url {
   font-size: 12px;
@@ -1043,7 +1172,7 @@ html, body {
 }
 
 .se-result-desc {
-  font-size: 12.5px;
+  font-size: 13px;
   line-height: 1.4;
   color: #222;
   margin: 0 0 6px;
@@ -1056,13 +1185,15 @@ html, body {
 }
 
 .se-tag {
-  font-size: 11px;
+  font-size: 12px;
   color: #1a4faa;
   background: #eef4ff;
   border: 1px solid #cfe0fa;
   border-radius: 8px;
-  padding: 1px 8px;
+  padding: 2px 8px;
+  cursor: pointer;
 }
+.se-tag:hover { background: #dbe8ff; border-color: #8fb3ea; }
 
 .se-noresults {
   padding: 30px 16px;
@@ -1101,7 +1232,7 @@ html, body {
 
   .resize-handle { display: none; }
 
-  .xp-window.window .title-bar { cursor: default; }
+  .xp-window.window .title-bar { cursor: default; min-height: 34px; padding-right: 10px; }
 
   /* Bigger, easier-to-tap window controls (scaled up, not resized,
      so the XP.css sprite backgrounds aren't distorted). */
@@ -1115,7 +1246,7 @@ html, body {
   /* Explorer chrome: stack sidebar under the content, scroll the
      toolbar/menubar horizontally instead of squeezing it. */
   .explorer-body { flex-direction: column; overflow-y: auto; }
-  .explorer-main.window-body { order: 1; padding: 14px; }
+  .explorer-main.window-body { order: 1; padding: 14px; flex: none; overflow: visible; }
   .explorer-sidebar {
     order: 2;
     width: 100%;
@@ -1133,7 +1264,7 @@ html, body {
 
   /* A 220px floated profile photo doesn't work on a phone-width
      window — let it become a normal full-width block image. */
-  .window-body img[style*="float"] {
+  .about-photo {
     float: none !important;
     width: 100% !important;
     max-width: 260px !important;
@@ -1202,4 +1333,25 @@ html, body {
   .xp-bottom-hint { max-width: 100%; text-align: center; }
 
   #welcome-text { font-size: 28px; }
+}
+
+/* ---------- Formulaire de contact ---------- */
+.contact-required-hint { margin: 0 0 8px; font-size: 12px; color: #444; }
+.contact-field { display: flex; flex-direction: column; gap: 3px; margin-bottom: 10px; }
+.contact-field label { font-weight: bold; }
+.contact-field input, .contact-field textarea { width: 100%; font-size: 13px; }
+.contact-hint { font-size: 11.5px; color: #555; }
+.contact-field [aria-invalid="true"] { border-color: #c0261a; box-shadow: 0 0 0 1px #c0261a; }
+.contact-status { min-height: 1.2em; margin-bottom: 8px; font-size: 12.5px; }
+.contact-status.error { color: #b01e12; font-weight: bold; }
+.contact-status.success { color: #1d6b1d; font-weight: bold; }
+
+/* ---------- Réduire les animations si l'utilisateur le demande ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .boot-chunk { opacity: 1; }
 }
