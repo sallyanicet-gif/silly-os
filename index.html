@@ -2,21 +2,25 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <!-- Le zoom reste autorisé (accessibilité : WCAG 1.4.4) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#0a2e9c" />
+    <meta name="description" content="Portfolio de Neidjah ANICET — design graphique, web et audiovisuel, présenté dans une interface façon Windows XP." />
     <title>Silly OS — Portfolio de Neidjah ANICET</title>
     <!-- XP.css d'abord, puis style.css pour que nos règles passent par-dessus -->
     <link rel="stylesheet" href="https://unpkg.com/xp.css" />
     <link rel="stylesheet" href="style.css" />
     <link rel="icon" type="image/png" href="icons/Netmeeting.png" />
-
   </head>
   <body>
+    <!-- Annonces pour les lecteurs d'écran -->
+    <div id="sr-announcer" class="sr-only" aria-live="polite"></div>
+
     <!-- Boot screen -->
-    <div id="boot-screen" class="screen">
-      <div id="boot-logo">Silly OS</div>
-      <div id="boot-sub">STARTING UP</div>
-      <div id="boot-bar-track">
+    <div id="boot-screen" class="screen" role="status" aria-label="Démarrage de Silly OS">
+      <div id="boot-logo" aria-hidden="true">Silly OS</div>
+      <div id="boot-sub" aria-hidden="true">STARTING UP</div>
+      <div id="boot-bar-track" aria-hidden="true">
         <div class="boot-chunk"></div>
         <div class="boot-chunk"></div>
         <div class="boot-chunk"></div>
@@ -28,107 +32,120 @@
         <div class="boot-chunk"></div>
         <div class="boot-chunk"></div>
       </div>
-      <div id="boot-hint">Press F11 for full screen</div>
+      <div id="boot-hint">Cliquez ou appuyez sur une touche pour passer</div>
     </div>
 
     <!-- Login screen (Windows XP style) -->
-    <div id="login-screen" class="screen xp-login" style="display: none">
+    <div id="login-screen" class="screen xp-login" style="display: none" role="region" aria-labelledby="login-title">
       <div class="xp-login-frame">
         <div class="xp-login-main">
           <div class="xp-login-left">
             <img src="icons/sillyos.png" alt="Silly OS" class="xp-brand-img" />
-            <div class="xp-instruction">To begin, click your user name</div>
+            <h1 id="login-title" class="xp-instruction">Pour commencer, cliquez sur votre nom d'utilisateur</h1>
           </div>
 
-          <div class="xp-divider"></div>
+          <div class="xp-divider" aria-hidden="true"></div>
 
           <div class="xp-login-right">
-            <div id="login-card" class="xp-user-tile">
-              <div id="login-avatar" class="xp-avatar"><img src="icons/aboutme.png" alt="Neidjah ANICET" width="48" height="48" /></div>
-              <div id="login-name" class="xp-username">Neidjah ANICET</div>
-            </div>
+            <button type="button" id="login-card" class="xp-user-tile" aria-label="Ouvrir la session de Neidjah ANICET et entrer dans le portfolio">
+              <span id="login-avatar" class="xp-avatar"><img src="icons/aboutme.png" alt="" width="48" height="48" /></span>
+              <span id="login-name" class="xp-username">Neidjah ANICET</span>
+            </button>
           </div>
         </div>
 
         <div class="xp-login-bottom">
-          <div class="xp-poweroff">
+          <button type="button" class="xp-poweroff">
             <img src="icons/Power.png" alt="" class="xp-power-icon" width="26" height="26" />
-            <span>Turn off computer</span>
-          </div>
-          <div class="xp-bottom-hint">Click the user tile above to enter my portfolio.</div>
+            <span>Arrêter l'ordinateur</span>
+          </button>
+          <p class="xp-bottom-hint">Cliquez sur votre nom (ou appuyez sur Entrée) pour entrer dans mon portfolio.</p>
         </div>
       </div>
 
-      <div id="welcome-text">Welcome</div>
+      <div id="welcome-text" aria-hidden="true">Bienvenue</div>
+    </div>
+
+    <!-- Shutdown screen (shown if the browser refuses window.close()) -->
+    <div id="shutdown-screen" class="screen" style="display: none" role="alertdialog" aria-modal="true" aria-labelledby="shutdown-msg" tabindex="-1">
+      <div id="shutdown-msg">Au revoir !</div>
     </div>
 
     <!-- Desktop app shell (hidden until login) -->
-    <div id="app-shell">
-      <div id="desktop">
-        <div class="icons" id="icons"></div>
+    <div id="app-shell" inert>
+      <main id="desktop" aria-label="Bureau">
+        <h1 class="sr-only">Portfolio de Neidjah ANICET</h1>
+        <nav aria-label="Applications du bureau">
+          <ul class="icons" id="icons"></ul>
+        </nav>
+      </main>
+
+      <div id="taskbar" role="toolbar" aria-label="Barre des tâches">
+        <button type="button" id="start-btn" aria-haspopup="true" aria-expanded="false" aria-controls="start-menu">
+          <img src="icons/startup.png" alt="" class="start-icon" /> démarrer
+        </button>
+        <div id="taskbar-items" aria-label="Fenêtres ouvertes" role="group"></div>
+        <div id="clock" aria-hidden="true">12:00 PM</div>
       </div>
 
-      <div id="taskbar">
-        <div id="start-btn"><img src="icons/startup.png" alt="" class="start-icon" /> start</div>
-        <div id="taskbar-items"></div>
-        <div id="clock">12:00 PM</div>
-      </div>
-
-      <div id="start-menu">
+      <nav id="start-menu" aria-label="Menu Démarrer" hidden>
         <div class="sm-header">
           <img src="icons/aboutme.png" alt="" class="sm-avatar" />
           <span class="sm-username">Neidjah ANICET</span>
         </div>
 
         <div class="sm-body">
-          <div class="sm-col sm-col-left">
-            <div class="sm-item" data-open="about">
-              <img src="icons/aboutme.png" class="sm-item-icon" alt="" />
-              <div class="sm-item-text">
-                <div class="sm-item-title">About Me</div>
-                <div class="sm-item-sub">Qui je suis</div>
-              </div>
-            </div>
-            <div class="sm-item" data-open="projects">
-              <img src="icons/IE6.png" class="sm-item-icon" alt="" />
-              <div class="sm-item-text">
-                <div class="sm-item-title">My Projects</div>
-                <div class="sm-item-sub">SillySearch!</div>
-              </div>
-            </div>
-            <div class="sm-item" data-open="contact">
-              <img src="icons/Email.png" class="sm-item-icon" alt="" />
-              <div class="sm-item-text">
-                <div class="sm-item-title">Contact Me</div>
-                <div class="sm-item-sub">Discutons ensemble</div>
-              </div>
-            </div>
-            <div class="sm-item" data-open="curryvital">
-              <img src="icons/Generic Text Document.png" class="sm-item-icon" alt="" />
-              <div class="sm-item-text">
-                <div class="sm-item-title">Curriculum Vitae.doc</div>
-                <div class="sm-item-sub">Mon parcours</div>
-              </div>
-            </div>
-
-            <div class="sm-allprograms">
-              <span>Tous les programmes</span>
-              <span class="sm-arrow"></span>
-            </div>
-          </div>
+          <ul class="sm-col sm-col-left">
+            <li>
+              <button type="button" class="sm-item" data-open="about">
+                <img src="icons/aboutme.png" class="sm-item-icon" alt="" />
+                <span class="sm-item-text">
+                  <span class="sm-item-title">About Me</span>
+                  <span class="sm-item-sub">Qui je suis</span>
+                </span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="sm-item" data-open="projects">
+                <img src="icons/IE6.png" class="sm-item-icon" alt="" />
+                <span class="sm-item-text">
+                  <span class="sm-item-title">My Projects</span>
+                  <span class="sm-item-sub">SillySearch!</span>
+                </span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="sm-item" data-open="contact">
+                <img src="icons/Email.png" class="sm-item-icon" alt="" />
+                <span class="sm-item-text">
+                  <span class="sm-item-title">Contact Me</span>
+                  <span class="sm-item-sub">Discutons ensemble</span>
+                </span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="sm-item" data-open="curryvital">
+                <img src="icons/Generic Text Document.png" class="sm-item-icon" alt="" />
+                <span class="sm-item-text">
+                  <span class="sm-item-title">Curriculum Vitae.doc</span>
+                  <span class="sm-item-sub">Mon parcours</span>
+                </span>
+              </button>
+            </li>
+          </ul>
         </div>
 
         <div class="sm-footer">
-          <div class="sm-footer-btn" id="sm-logoff">
+          <button type="button" class="sm-footer-btn" id="sm-logoff">
             <img src="icons/Standby.png" alt="" class="sm-footer-icon" />
             Fermer la session
-          </div>
-          <div class="sm-footer-btn" id="sm-shutdown">
+          </button>
+          <button type="button" class="sm-footer-btn" id="sm-shutdown">
             <img src="icons/Power.png" class="sm-footer-icon" alt="" />
             Arrêter
-          </div>
+          </button>
         </div>
-      </div>
+      </nav>
     </div>
 
     <script src="script.js"></script>
